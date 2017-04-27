@@ -30,7 +30,6 @@
       border-bottom:0;
     }
 
-
     input:checked + p {
       background:#F9F9F9;
       text-decoration: line-through;
@@ -50,8 +49,6 @@
       font-weight: 200;
       border-left: 1px solid #D1E2FF;
     }
-
-
   </style>
    <!--
    The following is a common layout you would see in an email client.
@@ -96,10 +93,44 @@
       <input type="checkbox">
       <p>Don't forget to tweet your result!</p>
     </div>
+    <div class="menu">
+      <a class="button--clear" href="#">Clear</a></li>
+    </div>
   </div>
 
-<script>
 
+
+<script>
+  const  checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+  const clear = document.querySelector('.button--clear');
+
+  function clearSelection(e) {
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+    console.clear();
+  }
+
+  clear.addEventListener('click', clearSelection);
+
+  let lastChecked;
+
+  function handleCheck(e) {
+    let inBetween = false;
+    if (e.shiftKey && this.checked) {
+      checkboxes.forEach(checkbox => {
+        console.log(checkbox);
+        if (checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween;
+          console.log(inBetween);
+        }
+        if (inBetween) {
+          checkbox.checked = true;
+        }
+      });
+    }
+    lastChecked = this;
+  }
+
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
 </script>
 </body>
 </html>
